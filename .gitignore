@@ -1,0 +1,7 @@
+# Per-machine daily launcher quota state; never include local runtime state in a repository.
+.local-limits.json
+
+# Editor and operating-system files
+.DS_Store
+Thumbs.db
+.vscode/

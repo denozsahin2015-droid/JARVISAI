@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#060a12" />
+    <title>J.A.R.V.I.S. — Local Interface</title>
+    <link rel="stylesheet" href="/styles.css" />
+    <link rel="stylesheet" href="/extras.css" />
+    <script src="/app.js" defer></script>
+  </head>
+  <body>
+    <div class="ambient-grid" aria-hidden="true"></div>
+    <div class="scanline" aria-hidden="true"></div>
+    <header class="topbar">
+      <div class="brand-lockup">
+        <div class="brand-mark"><span>J</span></div>
+        <div>
+          <div class="brand-title">J.A.R.V.I.S.</div>
+          <div class="brand-subtitle">JUST A RATHER VERY INTELLIGENT SYSTEM</div>
+        </div>
+      </div>
+      <div class="top-status"><span class="status-dot"></span><span id="connection-label">LOCAL SYSTEM · INITIALIZING</span></div>
+      <div class="top-actions">
+        <label class="language-picker"><span>LANGUAGE</span><select id="language-select" aria-label="Response language"></select></label>
+        <label class="os-picker"><span>INTERFACE</span><select id="platform-select" aria-label="Choose operating system"><option value="auto">AUTO DETECT</option><option value="windows">WINDOWS</option><option value="linux">PARDUS / LINUX</option><option value="macos">macOS</option></select></label>
+        <button id="voice-toggle" class="voice-toggle" type="button" aria-pressed="false" title="Toggle spoken answers">◖ VOICE OFF</button>
+        <span id="api-indicator" class="key-state">API KEY · NOT SET</span>
+        <button id="key-open" class="key-button"><span class="key-icon">⌑</span> API ACCESS</button>
+      </div>
+    </header>
+
+    <nav class="rail" aria-label="Main navigation">
+      <button class="rail-button active" data-view="chat" title="Assistant"><span>◈</span><small>CORE</small></button>
+      <button class="rail-button" data-view="systems" title="Systems"><span>⌘</span><small>SYS</small></button>
+      <button class="rail-button" data-view="tools" title="Desktop tools"><span>⌗</span><small>TOOLS</small></button>
+      <button class="rail-button" data-view="fun" title="Games and fun"><span>✧</span><small>FUN</small></button>
+      <div class="rail-spacer"></div>
+      <button class="rail-button" data-view="settings" title="Settings"><span>⚙</span><small>SETUP</small></button>
+    </nav>
+
+    <main class="layout">
+      <section class="workspace-panel">
+        <div class="panel-heading">
+          <div>
+            <p class="eyebrow">PERSONAL ASSISTANT / LOCAL MODE</p>
+            <h1 id="view-title">Good evening.</h1>
+          </div>
+          <div class="session-tag"><span class="pulse"></span> SESSION <b id="session-id">--:--</b></div>
+        </div>
+
+        <section id="chat-view" class="view active-view">
+          <div id="messages" class="messages" aria-live="polite">
+            <article class="message assistant-message">
+              <div class="message-avatar">J</div>
+              <div class="message-content"><div class="message-meta">J.A.R.V.I.S. <span>· READY</span></div><p>At your service. Add your API key to bring the assistant online. The key stays in this local server’s memory and clears when it stops.</p></div>
+            </article>
+          </div>
+          <form id="chat-form" class="composer">
+            <button id="mic-button" class="icon-action" type="button" title="Voice input" aria-label="Voice input">◖</button>
+            <textarea id="prompt" rows="1" placeholder="Ask J.A.R.V.I.S. anything…" autocomplete="off"></textarea>
+            <button id="send-button" class="send-button" type="submit" aria-label="Send message"><span>TRANSMIT</span><b>↗</b></button>
+          </form>
+          <div class="composer-note"><span>ENTER TO SEND</span><span>VOICE INPUT USES YOUR BROWSER’S MICROPHONE PERMISSION</span></div>
+        </section>
+
+        <section id="systems-view" class="view hidden-view">
+          <div class="section-title"><span class="section-glyph">⌘</span><div><p class="eyebrow">DIAGNOSTICS</p><h2>System overview</h2></div></div>
+          <div class="system-grid">
+            <div class="metric-card"><span class="metric-label">LOCAL BRIDGE</span><strong id="bridge-state">CONNECTING</strong><small>127.0.0.1 · PRIVATE</small></div>
+            <div class="metric-card"><span class="metric-label">AI LINK</span><strong id="ai-state">STANDBY</strong><small id="model-name">Responses API</small></div>
+            <div class="metric-card"><span class="metric-label">DESKTOP CONTROL</span><strong>CONFIRM FIRST</strong><small>APP ALLOWLIST ACTIVE</small></div>
+          </div>
+          <div class="log-card"><div class="log-head"><span>LIVE DIAGNOSTICS</span><i></i></div><div id="diagnostics" class="diagnostics"></div></div>
+        </section>
+
+        <section id="tools-view" class="view hidden-view">
+          <div class="section-title"><span class="section-glyph">⌗</span><div><p class="eyebrow">LOCAL ACTIONS</p><h2>Desktop tools</h2></div></div>
+          <p class="tools-intro">Choose an interface profile above. Desktop actions run only when the selected profile matches this computer, and only open approved apps.</p>
+          <div class="tool-grid">
+            <button class="tool-card" data-app="text-editor"><span class="tool-symbol">▤</span><b data-label="editor">Text editor</b><small data-desc="editor">Open a blank note</small><span class="tool-launch">LAUNCH ↗</span></button>
+            <button class="tool-card" data-app="calculator"><span class="tool-symbol">⊞</span><b>Calculator</b><small data-desc="calculator">Open Windows Calculator</small><span class="tool-launch">LAUNCH ↗</span></button>
+            <button class="tool-card" data-app="file-manager"><span class="tool-symbol">▱</span><b data-label="files">File manager</b><small data-desc="files">Browse files yourself</small><span class="tool-launch">LAUNCH ↗</span></button>
+          </div>
+          <div class="permission-note"><span>◉</span><div><b>Desktop bridge is permissioned</b><p>Only these three apps are allowed in this first build. More actions can be added one by one with a confirmation prompt.</p></div></div>
+        </section>
+
+        <section id="settings-view" class="view hidden-view">
+          <div class="section-title"><span class="section-glyph">⚙</span><div><p class="eyebrow">PERSONALIZATION</p><h2>Control settings</h2></div></div>
+          <div class="settings-grid">
+            <article class="settings-card"><p class="eyebrow">VOICE</p><h3>Spoken answers</h3><p>J.A.R.V.I.S. can read replies aloud using your browser’s speech engine.</p><button id="voice-settings-toggle" class="secondary-button" type="button">VOICE ANSWERS: OFF</button></article>
+            <article class="settings-card"><p class="eyebrow">LANGUAGE</p><h3>Reply language</h3><p>Choose from the language list. The assistant will answer in your selected language.</p><select id="language-select-settings" class="form-select" aria-label="Choose assistant language"></select></article>
+            <article class="settings-card devtools-note"><p class="eyebrow">BROWSER SECURITY</p><h3>Local source code</h3><p>This page runs on your own computer. Browser developer tools and local files cannot be reliably locked by a website. Keep the API key private; it is held by the local server process.</p></article>
+          </div>
+          <div class="shortcut-editor">
+            <div class="subheading"><div><p class="eyebrow">KEYBOARD AUTOMATIONS</p><h3>Your shortcuts</h3></div><span class="scope-chip">ACTIVE WHILE THIS PAGE IS OPEN</span></div>
+            <p class="tools-intro">Give each shortcut a name, choose a key and a permitted action. Hotkeys work while this browser tab is focused. They do not run global shortcuts over other apps.</p>
+            <form id="shortcut-form" class="shortcut-form">
+              <label>Name<input id="shortcut-name" maxlength="32" required placeholder="Örn. YouTube aç" /></label>
+              <label>Keyboard<select id="shortcut-key" required><option>Alt+1</option><option>Alt+2</option><option>Alt+3</option><option>Alt+4</option><option>Ctrl+Shift+Y</option><option>Ctrl+Shift+J</option><option>Ctrl+Shift+W</option><option>Ctrl+Shift+F</option></select></label>
+              <label>Action<select id="shortcut-action"><option value="youtube">Open YouTube</option><option value="joke">Tell a joke</option><option value="word-game">Open word chain</option><option value="number-game">Open number game</option><option value="fire">Ateşle! (daily limit)</option><option value="meme">Open the requested meme search</option><option value="folder">Open a Desktop folder</option></select></label>
+              <label id="shortcut-folder-wrap" class="conditional-field hidden">Desktop folder name<input id="shortcut-folder" maxlength="80" placeholder="Only a folder directly on Desktop" /></label>
+              <button class="primary-button" type="submit">ADD SHORTCUT <span>＋</span></button>
+            </form>
+            <div id="shortcut-list" class="shortcut-list"></div>
+            <p class="security-caption">Shortcut actions are a fixed allowlist; custom names do not create shell commands.</p>
+          </div>
+        </section>
+
+        <section id="fun-view" class="view hidden-view">
+          <div class="section-title"><span class="section-glyph">✧</span><div><p class="eyebrow">RECREATION MODULE</p><h2>Games &amp; fun</h2></div></div>
+          <div class="fun-grid">
+            <article class="fun-card"><div class="game-icon">Aa</div><p class="eyebrow">WORD CHAIN</p><h3>Kelime türetme</h3><p>Kelimeyi son harften devam ettir. Aynı kelimeyi tekrar kullanma.</p><div class="game-status" id="word-status">Başlangıç kelimesi: <b>ELMA</b> · Sıradaki harf: <b>A</b></div><div id="word-chain" class="word-chain"></div><form id="word-form" class="game-form"><input id="word-input" maxlength="30" placeholder="A harfiyle başlayan kelime…" autocomplete="off" /><button class="primary-button">SEND</button></form><button id="word-reset" class="text-button" type="button">YENİ KELİME</button></article>
+            <article class="fun-card"><div class="game-icon">?</div><p class="eyebrow">NUMBER PROTOCOL</p><h3>Sayıyı tahmin et</h3><p>1 ile 100 arasında gizli sayıyı bul. Her tahminde yönlendirme al.</p><div id="number-status" class="game-status">Yeni oyun hazır. Bir sayı seç.</div><form id="number-form" class="game-form"><input id="number-input" type="number" min="1" max="100" placeholder="1–100" /><button class="primary-button">GUESS</button></form><button id="number-reset" class="text-button" type="button">YENİ OYUN</button></article>
+            <article class="fun-card joke-card"><div class="game-icon">☻</div><p class="eyebrow">HUMOR SUBSYSTEM</p><h3>Bir şaka anlat</h3><p>J.A.R.V.I.S.’ten kısa ve temiz bir şaka iste.</p><button id="joke-button" class="primary-button" type="button">TELL ME A JOKE <span>↗</span></button></article>
+            <article class="fun-card command-card"><div class="game-icon">▶</div><p class="eyebrow">VOICE COMMANDS</p><h3>Komut örnekleri</h3><button class="example-command" data-command="YouTube'yi aç">“YouTube’yi aç” <span>↗</span></button><button class="example-command" data-command="Ateşle!">“Ateşle!” <span>2 / UTC DAY</span></button><button class="example-command" data-command="İki gözümün çiçeği şuraları aydınlat hele">“İki gözümün çiçeği, şuraları aydınlat hele” <span>↗</span></button><button class="example-command" data-command="Masaüstündeki Oyunlar klasörünü aç">“Masaüstündeki Oyunlar klasörünü aç” <span>↗</span></button></article>
+          </div>
+          <p class="security-caption">YouTube actions open a search or home page in your default browser; they do not autoplay a video. Review the result before playing.</p>
+        </section>
+      </section>
+
+      <aside class="right-column">
+        <section class="reactor-card">
+          <div class="reactor-caption"><span>NEURAL INTERFACE</span><span class="micro-live"><i></i> LIVE</span></div>
+          <div class="reactor-stage" aria-hidden="true">
+            <div class="reactor-orbit orbit-one"></div><div class="reactor-orbit orbit-two"></div><div class="reactor-orbit orbit-three"></div><div class="reactor-orbit orbit-four"></div><div class="reactor-orbit orbit-five"></div><div class="reactor-ring ring-a"></div><div class="reactor-ring ring-b"></div><div class="reactor-ring ring-c"></div>
+            <div class="reactor-core"><div class="core-inner"><span>J</span></div></div>
+            <i class="reactor-node node-a"></i><i class="reactor-node node-b"></i><i class="reactor-node node-c"></i>
+          </div>
+          <div class="core-label"><b>J.A.R.V.I.S.</b><span id="core-state">STANDBY</span></div>
+          <div class="equalizer" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+        </section>
+
+        <section class="quick-status">
+          <div class="card-title"><span>⌁</span> SYSTEM STATUS <b>01</b></div>
+          <div class="status-row"><span>LOCAL SERVER</span><strong><i class="tiny-dot"></i> ONLINE</strong></div>
+          <div class="status-row"><span>OPENAI CONNECTION</span><strong id="status-api">WAITING</strong></div>
+          <div class="status-row"><span>DESKTOP PERMISSIONS</span><strong>3 ALLOWED</strong></div>
+          <div class="status-foot"><span>SECURE LOOPBACK</span><span>127.0.0.1</span></div>
+        </section>
+
+        <section class="quick-actions">
+          <div class="card-title"><span>⌖</span> QUICK LAUNCH <b>02</b></div>
+          <button class="quick-launch" data-app="text-editor"><span>▤</span><span data-quick="editor">TEXT EDITOR</span><b>↗</b></button>
+          <button class="quick-launch" data-app="calculator"><span>⊞</span><span>CALCULATOR</span><b>↗</b></button>
+          <button class="quick-launch" data-app="file-manager"><span>▱</span><span data-quick="files">FILE MANAGER</span><b>↗</b></button>
+        </section>
+        <div class="footer-mark"><span>STARK-INDUSTRIES INSPIRED</span><span>LOCAL BUILD · 01</span></div>
+      </aside>
+    </main>
+
+    <div id="key-modal" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="key-title">
+      <section class="modal-card key-modal-card">
+        <button class="modal-close" data-close="key-modal" aria-label="Close">×</button>
+        <p class="eyebrow">LOCAL API CREDENTIALS</p><h2 id="key-title">Connect or replace your API key.</h2>
+        <p id="key-modal-copy" class="modal-copy">Paste a new OpenAI API key below. Saving replaces the current session key. The key is held in local server memory only and is never added to this website’s source files. The current key cannot be displayed again.</p>
+        <label class="input-label" for="api-key">OPENAI API KEY</label>
+        <div class="key-input-wrap"><span>⌑</span><input id="api-key" type="password" autocomplete="off" spellcheck="false" placeholder="sk-••••••••••••••••••••" /><button id="key-visibility" type="button">SHOW</button></div>
+        <div id="key-error" class="inline-error"></div>
+        <div class="modal-actions"><button id="key-clear" class="secondary-button" type="button">REMOVE KEY</button><button id="key-save" class="primary-button" type="button">SAVE / REPLACE KEY <span>↗</span></button></div>
+        <p class="cost-note">API usage may incur charges on your OpenAI account. Never share your key with anyone.</p>
+      </section>
+    </div>
+
+    <div id="toast" class="toast" role="status"></div>
+  </body>
+</html>
